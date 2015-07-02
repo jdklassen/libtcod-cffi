@@ -13,9 +13,9 @@ def _get_lib_path_crossplatform():
         return 'lib/win32/'
     elif 'linux' in _sys.platform:
         if bits == '32bit':
-            return 'lib/linux32/'
+            return 'lib/linux32'
         elif bits == '64bit':
-            return 'lib/linux64/'
+            return 'lib/linux64'
     elif 'darwin' in _sys.platform:
         return 'lib/darwin/'
     raise ImportError('Operating system "%s" has no supported dynamic link libarary. (%s, %s)' % (_sys.platform, bits, linkage))
@@ -23,6 +23,7 @@ def _get_lib_path_crossplatform():
 # add dll's to PATH
 _os.environ['PATH'] += ';' + _os.path.join(__path__[0],
                                            _get_lib_path_crossplatform())
+print(_os.environ['PATH'])
 
 
 # import the right .pyd file for this Python implementation
@@ -37,6 +38,7 @@ except ImportError:
         if _platform.architecture()[0] == '64bit':
             _module_name += '_x64'
 
+    print(_module_name)
     _libtcod = _importlib.import_module(_module_name, 'tcod')
 
 _ffi = ffi = _libtcod.ffi
